@@ -238,7 +238,9 @@ void loop() {
               if(Verfahr_Speed==8)Verfahr_Speed=0;
               break;
       case 5: Richtung=Richtung+plus_minus_cunter;
-              if(Richtung==-1)Verfahr_Speed=1;
+              if(Richtung==-1)Richtung=1;
+              if(Richtung==2)Richtung=0;
+              delay(200);
               break;
       case 6: while(digitalRead(T2) == 1)
                 {
