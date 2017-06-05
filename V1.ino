@@ -10,7 +10,7 @@ Adafruit_LiquidCrystal lcd(9, 7, 6, 5, 4, 3);
 #define T1 A0
 #define T2 A1
 #define T3 A2
-#define T4 A4
+#define T4 A3
 
 /////////_______StepMotor_______
 #define DIR 42
@@ -43,7 +43,7 @@ void AUSLOSEN()
   
   digitalWrite(AUSLOSER1, HIGH);
   digitalWrite(AUSLOSER2, HIGH);
-  delay(100);
+  delay(50);
   digitalWrite(AUSLOSER1, LOW);
   digitalWrite(AUSLOSER2, LOW);
 }
