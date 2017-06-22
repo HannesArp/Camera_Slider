@@ -38,15 +38,6 @@ void fahr_mm(int mm, int speed_mm_sec, int richtung)
 /////////_______AUSLÖSER_______
 #define AUSLOSER1 14 
 #define AUSLOSER2 15
-void AUSLOSEN()
-{
-  
-  digitalWrite(AUSLOSER1, HIGH);
-  digitalWrite(AUSLOSER2, HIGH);
-  delay(50);
-  digitalWrite(AUSLOSER1, LOW);
-  digitalWrite(AUSLOSER2, LOW);
-}
 
 /////////_______Variablen_______
 int Anzahl_Bilder_addr = 1;
@@ -120,13 +111,15 @@ void interrupt_timer()
   {
     fahr_mm(Verfahr_mm,Verfahr_Speed,Richtung);
     delay(10);
-    AUSLOSEN();
-    
+    digitalWrite(AUSLOSER1, HIGH);
+    digitalWrite(AUSLOSER2, HIGH);
     lcd.setCursor(0,0);lcd.print(">Slider Betrieb<");
     lcd.setCursor(3,1);lcd.print(" von ");
     lcd.setCursor(8,1);lcd.print(Anzahl_Bilder, DEC);
     lcd.setCursor(0,1);lcd.print(inervallcunter, DEC);
     inervallcunter++;
+    digitalWrite(AUSLOSER1, LOW);
+    digitalWrite(AUSLOSER2, LOW);
   }
   else
   {
@@ -173,6 +166,8 @@ void setup() {
   /////////Auslöser-------
   pinMode(AUSLOSER1, OUTPUT);
   pinMode(AUSLOSER2, OUTPUT);
+  digitalWrite(AUSLOSER1, LOW);
+  digitalWrite(AUSLOSER2, LOW);
   /////////Auslöser-------
 
   
@@ -189,7 +184,7 @@ void loop() {
   while(digitalRead(T1) == 1)
   { 
     menuCunter++;
-    if(menuCunter==8)menuCunter=0;
+    if(menuCunter==7)menuCunter=0;
     while(digitalRead(T1) == 1);
     lcd.setCursor(0,1);lcd.print("                ");
   }
@@ -197,7 +192,7 @@ void loop() {
   while(digitalRead(T4) == 1)
   {
     menuCunter--;
-    if(menuCunter==-1)menuCunter=7;
+    if(menuCunter==-1)menuCunter=6;
     while(digitalRead(T4) == 1);
     lcd.setCursor(0,1);lcd.print("                ");
   }
@@ -261,9 +256,6 @@ void loop() {
                   delay(speed_delay[Verfahr_Speed]);
                 }
               break;
-      case 7: Ausloseverhalten=Ausloseverhalten+plus_minus_cunter;
-              if(Ausloseverhalten==-1)Ausloseverhalten=2;
-              break;
       default: break;
     }
     plus_minus=0;
@@ -305,9 +297,6 @@ void loop() {
               break;
       case 6: lcd.setCursor(0,0);lcd.print("Handbetrieb     ");
               lcd.setCursor(0,1);lcd.print("<<<<<<   >>>>>>");
-              break;
-      case 7: lcd.setCursor(0,0);lcd.print("Ausloseverhalten");
-              lcd.setCursor(0,1);lcd.print(Ausloseverhalten, DEC);
               break;
       default: break;
     }
